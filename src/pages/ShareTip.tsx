@@ -1,0 +1,130 @@
+import React, { useState } from 'react';
+import { motion } from 'motion/react';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Plane, CheckCircle2 } from 'lucide-react';
+
+export default function ShareTip() {
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // In a real app, this would send data to a backend
+    setIsSubmitted(true);
+  };
+
+  if (isSubmitted) {
+    return (
+      <div className="bg-slate-50 min-h-screen py-16 flex items-center justify-center">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="max-w-md w-full px-4"
+        >
+          <Card className="text-center py-12">
+            <CardContent>
+              <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <CheckCircle2 className="w-10 h-10 text-emerald-600" />
+              </div>
+              <h2 className="text-3xl font-bold text-slate-900 mb-4">Porada Przesłana!</h2>
+              <p className="text-slate-600 mb-8">
+                Dziękujemy za podzielenie się wiedzą ze społecznością. Twoja porada pomoże innym podróżować mądrzej.
+              </p>
+              <Button 
+                onClick={() => setIsSubmitted(false)}
+                className="bg-orange-500 hover:bg-orange-600 text-white rounded-full px-8"
+              >
+                Dodaj Kolejną Poradę
+              </Button>
+            </CardContent>
+          </Card>
+        </motion.div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-slate-50 min-h-screen py-16">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Plane className="w-8 h-8 text-orange-600" />
+          </div>
+          <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 mb-4">
+            Podziel się Poradą
+          </h1>
+          <p className="text-lg text-slate-600">
+            Pomóż społeczności podróżować lepiej, dzieląc się swoimi najlepszymi sposobami na oszczędzanie, ukrytymi perełkami i lokalnymi poradami.
+          </p>
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <Card className="border-slate-200 shadow-lg">
+            <CardHeader>
+              <CardTitle>Szczegóły Porady</CardTitle>
+              <CardDescription>Podaj jasne, praktyczne porady dla innych podróżników.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                
+                <div className="space-y-2">
+                  <Label htmlFor="title">Tytuł</Label>
+                  <Input id="title" placeholder="np. Pomiń JR Pass, jeśli zostajesz w Tokio" required />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="city">Miasto / Lokalizacja</Label>
+                    <Input id="city" placeholder="np. Tokio, Japonia" required />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="category">Kategoria</Label>
+                    <Select required>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Wybierz kategorię" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="transport">Transport</SelectItem>
+                        <SelectItem value="dining">Jedzenie</SelectItem>
+                        <SelectItem value="attractions">Atrakcje</SelectItem>
+                        <SelectItem value="accommodation">Nocleg</SelectItem>
+                        <SelectItem value="other">Inne</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="description">Opis</Label>
+                  <Textarea 
+                    id="description" 
+                    placeholder="Wyjaśnij poradę szczegółowo. Ile można zaoszczędzić? Gdzie dokładnie to jest? Na co ludzie powinni uważać?" 
+                    className="min-h-[150px]"
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="image">URL Zdjęcia (Opcjonalnie)</Label>
+                  <Input id="image" type="url" placeholder="https://example.com/image.jpg" />
+                </div>
+
+                <Button type="submit" className="w-full bg-slate-900 hover:bg-slate-800 text-white h-12 text-lg rounded-xl">
+                  Prześlij Poradę
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
+        </motion.div>
+      </div>
+    </div>
+  );
+}
