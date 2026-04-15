@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Search, MapPin, TrendingUp, Filter } from 'lucide-react';
 import { COMMUNITY_TIPS, CATEGORY_ICONS } from '../data/mockData';
@@ -90,47 +90,49 @@ export default function Tips() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
               >
-                <Card className="h-full overflow-hidden hover:shadow-lg transition-shadow border-slate-200 bg-white flex flex-col">
-                  <div className="relative h-48 overflow-hidden shrink-0">
-                    <img 
-                      src={tip.image} 
-                      alt={tip.city} 
-                      className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                      referrerPolicy="no-referrer"
-                    />
-                    <div className="absolute top-4 left-4">
-                      <Badge className="bg-white/90 text-slate-900 hover:bg-white backdrop-blur-sm shadow-sm font-semibold">
-                        <MapPin className="w-3 h-3 mr-1" /> {tip.city}
-                      </Badge>
-                    </div>
-                    <div className="absolute top-4 right-4">
-                      <Badge className="bg-slate-900/80 text-white hover:bg-slate-900 backdrop-blur-sm shadow-sm border-0">
-                        {CATEGORY_ICONS[tip.category]}
-                        <span className="ml-1">{tip.category}</span>
-                      </Badge>
-                    </div>
-                  </div>
-                  <CardHeader className="pb-3 shrink-0">
-                    <CardTitle className="text-xl leading-tight">{tip.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="flex-grow">
-                    <p className="text-slate-600 text-sm leading-relaxed">
-                      {tip.description}
-                    </p>
-                  </CardContent>
-                  <CardFooter className="pt-4 border-t border-slate-100 flex justify-between items-center bg-slate-50/50 shrink-0">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-orange-700 font-bold text-xs">
-                        {tip.author.charAt(0)}
+                <Link to={`/tips/${tip.id}`} className="block h-full">
+                  <Card className="h-full overflow-hidden hover:shadow-lg transition-shadow border-slate-200 bg-white flex flex-col p-0">
+                    <div className="relative h-48 overflow-hidden shrink-0">
+                      <img 
+                        src={tip.image} 
+                        alt={tip.city} 
+                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                        referrerPolicy="no-referrer"
+                      />
+                      <div className="absolute top-4 left-4">
+                        <Badge className="bg-white/90 text-slate-900 hover:bg-white backdrop-blur-sm shadow-sm font-semibold">
+                          <MapPin className="w-3 h-3 mr-1" /> {tip.city}
+                        </Badge>
                       </div>
-                      <span className="text-sm font-medium text-slate-700">{tip.author}</span>
+                      <div className="absolute top-4 right-4">
+                        <Badge className="bg-slate-900/80 text-white hover:bg-slate-900 backdrop-blur-sm shadow-sm border-0">
+                          {CATEGORY_ICONS[tip.category]}
+                          <span className="ml-1">{tip.category}</span>
+                        </Badge>
+                      </div>
                     </div>
-                    <div className="flex items-center text-slate-500 text-sm font-medium">
-                      <TrendingUp className="w-4 h-4 mr-1 text-emerald-500" />
-                      {tip.upvotes}
-                    </div>
-                  </CardFooter>
-                </Card>
+                    <CardHeader className="pb-3 shrink-0 pt-4">
+                      <CardTitle className="text-xl leading-tight">{tip.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="flex-grow pb-4">
+                      <p className="text-slate-600 text-sm leading-relaxed line-clamp-3">
+                        {tip.description}
+                      </p>
+                    </CardContent>
+                    <CardFooter className="pt-4 border-t border-slate-100 flex justify-between items-center bg-slate-50/50 shrink-0">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-orange-700 font-bold text-xs">
+                          {tip.author.charAt(0)}
+                        </div>
+                        <span className="text-sm font-medium text-slate-700">{tip.author}</span>
+                      </div>
+                      <div className="flex items-center text-slate-500 text-sm font-medium">
+                        <TrendingUp className="w-4 h-4 mr-1 text-emerald-500" />
+                        {tip.upvotes}
+                      </div>
+                    </CardFooter>
+                  </Card>
+                </Link>
               </motion.div>
             ))
           ) : (

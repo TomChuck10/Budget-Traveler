@@ -4,10 +4,11 @@ import { GUIDES } from '../data/mockData';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { BookOpen, Clock } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Guides() {
   return (
-    <div className="bg-slate-50 min-h-screen py-16">
+    <div className="bg-slate-50 min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 mb-4">
@@ -26,40 +27,42 @@ export default function Guides() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="overflow-hidden hover:shadow-xl transition-all border-slate-200 group cursor-pointer flex flex-col sm:flex-row h-full">
-                <div className="relative sm:w-2/5 h-48 sm:h-auto overflow-hidden shrink-0">
-                  <img 
-                    src={guide.image} 
-                    alt={guide.title} 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="absolute top-4 left-4">
-                    <Badge className="bg-orange-500 hover:bg-orange-600 text-white border-0">
-                      {guide.category}
-                    </Badge>
-                  </div>
-                </div>
-                <div className="flex flex-col justify-between p-6 sm:w-3/5">
-                  <div>
-                    <h2 className="text-2xl font-bold mb-3 text-slate-900 group-hover:text-orange-500 transition-colors">
-                      {guide.title}
-                    </h2>
-                    <div className="flex items-center text-sm text-slate-500 mb-4">
-                      <Clock className="w-4 h-4 mr-1" /> {guide.readTime}
+              <Link to={`/guides/${guide.id}`} className="block h-full">
+                <Card className="overflow-hidden hover:shadow-xl transition-all border-slate-200 group cursor-pointer flex flex-col sm:flex-row h-full p-0">
+                  <div className="relative sm:w-2/5 h-48 sm:h-auto overflow-hidden shrink-0">
+                    <img 
+                      src={guide.image} 
+                      alt={guide.title} 
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      referrerPolicy="no-referrer"
+                    />
+                    <div className="absolute top-4 left-4">
+                      <Badge className="bg-orange-500 hover:bg-orange-600 text-white border-0">
+                        {guide.category}
+                      </Badge>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between mt-4 pt-4 border-t border-slate-100">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-700 font-bold text-xs">
-                        {guide.author.charAt(0)}
+                  <div className="flex flex-col justify-between p-6 sm:w-3/5">
+                    <div>
+                      <h2 className="text-2xl font-bold mb-3 text-slate-900 group-hover:text-orange-500 transition-colors">
+                        {guide.title}
+                      </h2>
+                      <div className="flex items-center text-sm text-slate-500 mb-4">
+                        <Clock className="w-4 h-4 mr-1" /> {guide.readTime}
                       </div>
-                      <span className="text-sm font-medium text-slate-700">{guide.author}</span>
                     </div>
-                    <BookOpen className="w-5 h-5 text-slate-400 group-hover:text-orange-500 transition-colors" />
+                    <div className="flex items-center justify-between mt-4 pt-4 border-t border-slate-100">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-700 font-bold text-xs">
+                          {guide.author.charAt(0)}
+                        </div>
+                        <span className="text-sm font-medium text-slate-700">{guide.author}</span>
+                      </div>
+                      <BookOpen className="w-5 h-5 text-slate-400 group-hover:text-orange-500 transition-colors" />
+                    </div>
                   </div>
-                </div>
-              </Card>
+                </Card>
+              </Link>
             </motion.div>
           ))}
         </div>

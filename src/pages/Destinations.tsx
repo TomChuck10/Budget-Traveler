@@ -4,6 +4,7 @@ import { DESTINATIONS } from '../data/mockData';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { MapPin, Wallet } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Destinations() {
   return (
@@ -26,29 +27,31 @@ export default function Destinations() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="overflow-hidden hover:shadow-xl transition-all border-slate-200 group cursor-pointer h-full flex flex-col">
-                <div className="relative h-64 overflow-hidden shrink-0">
-                  <img 
-                    src={dest.image} 
-                    alt={dest.name} 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-                  <div className="absolute bottom-4 left-4 right-4 text-white">
-                    <h2 className="text-2xl font-bold mb-2 flex items-center">
-                      <MapPin className="w-5 h-5 mr-2" /> {dest.name}
-                    </h2>
-                    <Badge className="bg-emerald-500/90 hover:bg-emerald-500 text-white border-0">
-                      <Wallet className="w-3 h-3 mr-1" /> {dest.dailyBudget} / dzień
-                    </Badge>
+              <Card className="overflow-hidden hover:shadow-xl transition-all border-slate-200 group cursor-pointer h-full flex flex-col p-0">
+                <Link to={`/destinations/${dest.id}`} className="flex flex-col h-full">
+                  <div className="relative h-64 overflow-hidden shrink-0">
+                    <img 
+                      src={dest.image} 
+                      alt={dest.name} 
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      referrerPolicy="no-referrer"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                    <div className="absolute bottom-4 left-4 right-4 text-white">
+                      <h2 className="text-2xl font-bold mb-2 flex items-center">
+                        <MapPin className="w-5 h-5 mr-2" /> {dest.name}
+                      </h2>
+                      <Badge className="bg-emerald-500/90 hover:bg-emerald-500 text-white border-0">
+                        <Wallet className="w-3 h-3 mr-1" /> {dest.dailyBudget} / dzień
+                      </Badge>
+                    </div>
                   </div>
-                </div>
-                <CardContent className="pt-6 flex-grow">
-                  <p className="text-slate-600 leading-relaxed">
-                    {dest.description}
-                  </p>
-                </CardContent>
+                  <CardContent className="pt-6 flex-grow">
+                    <p className="text-slate-600 leading-relaxed">
+                      {dest.description}
+                    </p>
+                  </CardContent>
+                </Link>
               </Card>
             </motion.div>
           ))}
