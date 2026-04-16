@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { GUIDES } from '../data/mockData';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Clock, BookOpen } from 'lucide-react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 
 export default function GuideDetail() {
   const { id } = useParams<{ id: string }>();
   const guide = GUIDES.find(g => g.id === Number(id));
+  
+  // Safely get all images (fallback to single image if array isn't present)
+  // Check if guide exists first to avoid errors
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   if (!guide) {
     return (
@@ -20,6 +24,8 @@ export default function GuideDetail() {
       </div>
     );
   }
+
+  const guideImages = guide.images && guide.images.length > 0 ? guide.images : [guide.image];
 
   return (
     <div className="bg-slate-50 min-h-screen py-12">
@@ -34,18 +40,52 @@ export default function GuideDetail() {
           animate={{ opacity: 1, y: 0 }}
           className="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-200"
         >
-          <div className="relative h-64 md:h-96 w-full">
-            <img 
-              src={guide.image} 
-              alt={guide.title} 
-              className="w-full h-full object-cover"
-              referrerPolicy="no-referrer"
-            />
-            <div className="absolute top-4 left-4">
-              <Badge className="bg-orange-500 text-white border-0 text-sm py-1.5 px-3">
-                {guide.category}
-              </Badge>
+          {/* Main Image Gallery Logic */}
+          <div className="w-full">
+            <div className="relative h-64 md:h-96 w-full overflow-hidden bg-slate-100">
+              <AnimatePresence mode="wait">
+                <motion.img 
+                  key={activeImageIndex}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  src={guideImages[activeImageIndex]} 
+                  alt={`${guide.title} - zdjęcie ${activeImageIndex + 1}`} 
+                  className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+              </AnimatePresence>
+              <div className="absolute top-4 left-4">
+                <Badge className="bg-orange-500 text-white border-0 text-sm py-1.5 px-3">
+                  {guide.category}
+                </Badge>
+              </div>
             </div>
+            
+            {/* Thumbnails if > 1 image */}
+            {guideImages.length > 1 && (
+              <div className="flex gap-3 p-4 overflow-x-auto hide-scrollbar bg-white border-b border-slate-100">
+                {guideImages.map((img, idx) => (
+                  <button 
+                    key={idx} 
+                    onClick={() => setActiveImageIndex(idx)}
+                    className={`relative shrink-0 w-24 h-16 rounded-lg overflow-hidden transition-all ${
+                      activeImageIndex === idx 
+                        ? 'ring-2 ring-orange-500 ring-offset-2 opacity-100' 
+                        : 'opacity-60 hover:opacity-100'
+                    }`}
+                  >
+                    <img 
+                      src={img} 
+                      alt={`Miniaturka ${idx + 1}`} 
+                      className="w-full h-full object-cover" 
+                      referrerPolicy="no-referrer"
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="p-8 md:p-12">

@@ -122,6 +122,12 @@ export const GUIDES = [
     author: 'Alex W.',
     readTime: '12 min czytania',
     image: 'https://picsum.photos/seed/sea/600/400',
+    images: [
+      'https://picsum.photos/seed/sea/600/400',
+      'https://picsum.photos/seed/sea2/600/400',
+      'https://picsum.photos/seed/sea3/600/400',
+      'https://picsum.photos/seed/sea4/600/400'
+    ],
     category: 'Plan podróży'
   },
   {
@@ -138,6 +144,10 @@ export const GUIDES = [
     author: 'Jessica M.',
     readTime: '6 min czytania',
     image: 'https://picsum.photos/seed/walking/600/400',
+    images: [
+      'https://picsum.photos/seed/walking/600/400',
+      'https://picsum.photos/seed/walking2/600/400',
+    ],
     category: 'Aktywności'
   },
   {

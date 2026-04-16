@@ -1,14 +1,16 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { COMMUNITY_TIPS, CATEGORY_ICONS } from '../data/mockData';
+import { CATEGORY_ICONS } from '../data/mockData';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, MapPin, TrendingUp, Calendar, User } from 'lucide-react';
 import { motion } from 'motion/react';
+import { useApp } from '../context/AppContext';
 
 export default function TipDetail() {
   const { id } = useParams<{ id: string }>();
-  const tip = COMMUNITY_TIPS.find(t => t.id === Number(id));
+  const { tips, userUpvotes, upvoteTip } = useApp();
+  const tip = tips.find(t => t.id === Number(id));
 
   if (!tip) {
     return (
@@ -20,6 +22,8 @@ export default function TipDetail() {
       </div>
     );
   }
+
+  const isUpvoted = userUpvotes.includes(tip.id);
 
   return (
     <div className="bg-slate-50 min-h-screen py-12">
@@ -54,10 +58,13 @@ export default function TipDetail() {
               <Badge variant="secondary" className="bg-orange-100 text-orange-700 hover:bg-orange-100 border-0">
                 <MapPin className="w-3 h-3 mr-1" /> {tip.city}
               </Badge>
-              <div className="flex items-center text-slate-500 text-sm font-medium">
-                <TrendingUp className="w-4 h-4 mr-1 text-emerald-500" />
-                {tip.upvotes} poleceń
-              </div>
+              <button 
+                onClick={() => upvoteTip(tip.id)}
+                className={`flex items-center text-sm font-medium px-4 py-1.5 rounded-full transition-colors ${isUpvoted ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+              >
+                <TrendingUp className={`w-4 h-4 mr-2 ${isUpvoted ? 'text-emerald-600' : 'text-emerald-500'}`} />
+                {tip.upvotes} {isUpvoted ? 'Polecasz to!' : 'Poleć poradę'}
+              </button>
             </div>
 
             <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6 leading-tight">

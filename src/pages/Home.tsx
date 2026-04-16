@@ -6,11 +6,13 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { Badge } from '@/components/ui/badge';
 import { motion } from 'motion/react';
 import { Link, useNavigate } from 'react-router-dom';
-import { COMMUNITY_TIPS, CATEGORY_ICONS } from '../data/mockData';
+import { CATEGORY_ICONS } from '../data/mockData';
+import { useApp } from '../context/AppContext';
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
+  const { tips, userUpvotes, upvoteTip } = useApp();
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
@@ -18,7 +20,7 @@ export default function Home() {
     }
   };
 
-  const filteredTips = COMMUNITY_TIPS.slice(0, 6); // Show only top 6 on home
+  const filteredTips = tips.slice(0, 6); // Show only top 6 on home
 
   return (
     <>
@@ -182,10 +184,13 @@ export default function Home() {
                         </div>
                         <span className="text-sm font-medium text-slate-700">{tip.author}</span>
                       </div>
-                      <div className="flex items-center text-slate-500 text-sm font-medium">
-                        <TrendingUp className="w-4 h-4 mr-1 text-emerald-500" />
+                      <button 
+                        onClick={(e) => { e.preventDefault(); upvoteTip(tip.id); }}
+                        className={`flex items-center text-sm font-medium px-3 py-1.5 rounded-full transition-colors ${userUpvotes.includes(tip.id) ? 'bg-emerald-100 text-emerald-700' : 'text-slate-500 hover:bg-slate-200'}`}
+                      >
+                        <TrendingUp className={`w-4 h-4 mr-1 ${userUpvotes.includes(tip.id) ? 'text-emerald-600' : 'text-emerald-500'}`} />
                         {tip.upvotes}
-                      </div>
+                      </button>
                     </CardFooter>
                   </Card>
                 </Link>

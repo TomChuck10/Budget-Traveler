@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { Plane, Menu, X } from 'lucide-react';
+import { Plane, Menu, X, User as UserIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useApp } from '../context/AppContext';
 
 export default function Layout() {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { currentUser, login } = useApp();
   
   const isActive = (path: string) => {
     return location.pathname === path ? "text-orange-500" : "hover:text-orange-500 transition-colors";
@@ -31,11 +33,34 @@ export default function Layout() {
               <Link to="/destinations" className={isActive('/destinations')}>Kierunki</Link>
               <Link to="/tips" className={isActive('/tips')}>Porady Społeczności</Link>
               <Link to="/guides" className={isActive('/guides')}>Przewodniki</Link>
-              <Link to="/share">
-                <Button className="bg-orange-500 hover:bg-orange-600 text-white rounded-full px-6">
-                  Dodaj Poradę
-                </Button>
-              </Link>
+              
+              {currentUser ? (
+                <>
+                  <Link to="/share">
+                    <Button className="bg-orange-500 hover:bg-orange-600 text-white rounded-full px-6">
+                      Dodaj Poradę
+                    </Button>
+                  </Link>
+                  <Link to="/profile" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                    <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-orange-700 font-bold">
+                      {currentUser.avatar}
+                    </div>
+                  </Link>
+                </>
+              ) : (
+                <div className="flex items-center gap-3">
+                  <Link to="/login">
+                    <Button variant="outline" className="rounded-full px-5 border-orange-200 text-orange-600 hover:bg-orange-50">
+                      Zaloguj się
+                    </Button>
+                  </Link>
+                  <Link to="/register">
+                    <Button className="rounded-full px-5 bg-orange-500 hover:bg-orange-600 text-white">
+                      Zarejestruj się
+                    </Button>
+                  </Link>
+                </div>
+              )}
             </div>
 
             {/* Mobile Menu Button */}
@@ -56,11 +81,37 @@ export default function Layout() {
             <Link to="/destinations" onClick={closeMenu} className={`block px-3 py-2 rounded-md text-base font-medium ${location.pathname === '/destinations' ? 'bg-orange-50 text-orange-600' : 'text-slate-700 hover:bg-slate-50'}`}>Kierunki</Link>
             <Link to="/tips" onClick={closeMenu} className={`block px-3 py-2 rounded-md text-base font-medium ${location.pathname === '/tips' ? 'bg-orange-50 text-orange-600' : 'text-slate-700 hover:bg-slate-50'}`}>Porady Społeczności</Link>
             <Link to="/guides" onClick={closeMenu} className={`block px-3 py-2 rounded-md text-base font-medium ${location.pathname === '/guides' ? 'bg-orange-50 text-orange-600' : 'text-slate-700 hover:bg-slate-50'}`}>Przewodniki</Link>
-            <Link to="/share" onClick={closeMenu} className="block mt-4">
-              <Button className="w-full bg-orange-500 hover:bg-orange-600 text-white rounded-full">
-                Dodaj Poradę
-              </Button>
-            </Link>
+            
+            <div className="pt-4 border-t border-slate-100">
+              {currentUser ? (
+                <>
+                  <Link to="/profile" onClick={closeMenu} className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-50 mb-2">
+                    <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-orange-700 font-bold">
+                      {currentUser.avatar}
+                    </div>
+                    <span className="font-medium text-slate-700">Mój Profil</span>
+                  </Link>
+                  <Link to="/share" onClick={closeMenu} className="block mt-2">
+                    <Button className="w-full bg-orange-500 hover:bg-orange-600 text-white rounded-full">
+                      Dodaj Poradę
+                    </Button>
+                  </Link>
+                </>
+              ) : (
+                <div className="flex flex-col gap-2">
+                  <Link to="/login" onClick={closeMenu} className="block w-full">
+                    <Button variant="outline" className="w-full rounded-full border-orange-200 text-orange-600 hover:bg-orange-50">
+                      Zaloguj się
+                    </Button>
+                  </Link>
+                  <Link to="/register" onClick={closeMenu} className="block w-full">
+                    <Button className="w-full rounded-full bg-orange-500 hover:bg-orange-600 text-white">
+                      Zarejestruj się
+                    </Button>
+                  </Link>
+                </div>
+              )}
+            </div>
           </div>
         )}
       </nav>

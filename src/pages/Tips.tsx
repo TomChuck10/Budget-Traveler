@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Search, MapPin, TrendingUp, Filter } from 'lucide-react';
-import { COMMUNITY_TIPS, CATEGORY_ICONS } from '../data/mockData';
+import { CATEGORY_ICONS } from '../data/mockData';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { useApp } from '../context/AppContext';
 
 export default function Tips() {
+  const { tips, userUpvotes, upvoteTip } = useApp();
   const [searchParams, setSearchParams] = useSearchParams();
   const initialSearch = searchParams.get('search') || '';
   
@@ -28,7 +30,7 @@ export default function Tips() {
     }
   };
 
-  const filteredTips = COMMUNITY_TIPS.filter(tip => {
+  const filteredTips = tips.filter(tip => {
     const matchesSearch = tip.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           tip.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           tip.description.toLowerCase().includes(searchQuery.toLowerCase());
@@ -126,10 +128,13 @@ export default function Tips() {
                         </div>
                         <span className="text-sm font-medium text-slate-700">{tip.author}</span>
                       </div>
-                      <div className="flex items-center text-slate-500 text-sm font-medium">
-                        <TrendingUp className="w-4 h-4 mr-1 text-emerald-500" />
+                      <button 
+                        onClick={(e) => { e.preventDefault(); upvoteTip(tip.id); }}
+                        className={`flex items-center text-sm font-medium px-3 py-1.5 rounded-full transition-colors ${userUpvotes.includes(tip.id) ? 'bg-emerald-100 text-emerald-700' : 'text-slate-500 hover:bg-slate-200'}`}
+                      >
+                        <TrendingUp className={`w-4 h-4 mr-1 ${userUpvotes.includes(tip.id) ? 'text-emerald-600' : 'text-emerald-500'}`} />
                         {tip.upvotes}
-                      </div>
+                      </button>
                     </CardFooter>
                   </Card>
                 </Link>

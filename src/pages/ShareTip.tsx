@@ -6,16 +6,68 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Plane, CheckCircle2 } from 'lucide-react';
+import { Plane, CheckCircle2, Lock } from 'lucide-react';
+import { useApp } from '../context/AppContext';
 
 export default function ShareTip() {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const { currentUser, login, addTip } = useApp();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // In a real app, this would send data to a backend
+    const formData = new FormData(e.currentTarget);
+    
+    // Map Polish keys from select to the English keys used in categories if necessary, 
+    // or just use Polish directly if that's what we display
+    const rawCategory = formData.get('category') as string;
+    const categoryMap: Record<string, string> = {
+      'transport': 'Transport',
+      'dining': 'Jedzenie',
+      'attractions': 'Atrakcje',
+      'accommodation': 'Inne',
+      'other': 'Inne'
+    };
+
+    addTip({
+      title: formData.get('title') as string,
+      city: formData.get('city') as string,
+      category: categoryMap[rawCategory] || 'Inne',
+      description: formData.get('description') as string,
+      image: (formData.get('image') as string) || 'https://picsum.photos/seed/new/600/400'
+    });
+
     setIsSubmitted(true);
   };
+
+  if (!currentUser) {
+    return (
+      <div className="bg-slate-50 min-h-screen py-16 flex items-center justify-center">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="max-w-md w-full px-4"
+        >
+          <Card className="text-center py-12">
+            <CardContent>
+              <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Lock className="w-10 h-10 text-slate-400" />
+              </div>
+              <h2 className="text-3xl font-bold text-slate-900 mb-4">Zaloguj się</h2>
+              <p className="text-slate-600 mb-8">
+                Musisz posiadać profil, aby dodawać nowe porady ułatwiające podróżowanie dla społeczności.
+              </p>
+              <Button 
+                onClick={login}
+                className="bg-orange-500 hover:bg-orange-600 text-white rounded-full px-8 h-12 text-lg"
+              >
+                Zaloguj się teraz
+              </Button>
+            </CardContent>
+          </Card>
+        </motion.div>
+      </div>
+    );
+  }
 
   if (isSubmitted) {
     return (
@@ -76,18 +128,18 @@ export default function ShareTip() {
                 
                 <div className="space-y-2">
                   <Label htmlFor="title">Tytuł</Label>
-                  <Input id="title" placeholder="np. Pomiń JR Pass, jeśli zostajesz w Tokio" required />
+                  <Input id="title" name="title" placeholder="np. Pomiń JR Pass, jeśli zostajesz w Tokio" required />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <Label htmlFor="city">Miasto / Lokalizacja</Label>
-                    <Input id="city" placeholder="np. Tokio, Japonia" required />
+                    <Input id="city" name="city" placeholder="np. Tokio, Japonia" required />
                   </div>
                   
                   <div className="space-y-2">
                     <Label htmlFor="category">Kategoria</Label>
-                    <Select required>
+                    <Select name="category" required>
                       <SelectTrigger>
                         <SelectValue placeholder="Wybierz kategorię" />
                       </SelectTrigger>
@@ -106,6 +158,7 @@ export default function ShareTip() {
                   <Label htmlFor="description">Opis</Label>
                   <Textarea 
                     id="description" 
+                    name="description"
                     placeholder="Wyjaśnij poradę szczegółowo. Ile można zaoszczędzić? Gdzie dokładnie to jest? Na co ludzie powinni uważać?" 
                     className="min-h-[150px]"
                     required
@@ -114,7 +167,7 @@ export default function ShareTip() {
 
                 <div className="space-y-2">
                   <Label htmlFor="image">URL Zdjęcia (Opcjonalnie)</Label>
-                  <Input id="image" type="url" placeholder="https://example.com/image.jpg" />
+                  <Input id="image" name="image" type="url" placeholder="https://example.com/image.jpg" />
                 </div>
 
                 <Button type="submit" className="w-full bg-slate-900 hover:bg-slate-800 text-white h-12 text-lg rounded-xl">
