@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { COMMUNITY_TIPS } from '../data/mockData';
 
 export type User = {
@@ -12,6 +13,8 @@ export type User = {
 
 export type Tip = typeof COMMUNITY_TIPS[0];
 
+export type FavoriteType = 'tips' | 'guides' | 'destinations';
+
 type AppContextType = {
   currentUser: User | null;
   login: () => void;
@@ -21,6 +24,8 @@ type AppContextType = {
   addTip: (tip: Omit<Tip, 'id' | 'author' | 'upvotes'>) => void;
   upvoteTip: (id: number) => void;
   userUpvotes: number[];
+  favorites: Record<FavoriteType, number[]>;
+  toggleFavorite: (type: FavoriteType, id: number) => void;
 };
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -35,9 +40,15 @@ const MOCK_USER: User = {
 };
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [tips, setTips] = useState<Tip[]>(COMMUNITY_TIPS);
   const [userUpvotes, setUserUpvotes] = useState<number[]>([]);
+  const [favorites, setFavorites] = useState<Record<FavoriteType, number[]>>({
+    tips: [],
+    guides: [],
+    destinations: [],
+  });
 
   const login = () => {
     setCurrentUser(MOCK_USER);
@@ -73,8 +84,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const upvoteTip = (id: number) => {
     if (!currentUser) {
-      // Simulate prompting for login if not logged in
-      alert("Zaloguj się, aby ocenić tę poradę!");
+      navigate('/login');
       return;
     }
 
@@ -98,8 +108,23 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     });
   };
 
+  const toggleFavorite = (type: FavoriteType, id: number) => {
+    if (!currentUser) {
+      navigate('/login');
+      return;
+    }
+    setFavorites(prev => {
+      const list = prev[type];
+      if (list.includes(id)) {
+        return { ...prev, [type]: list.filter(itemId => itemId !== id) };
+      } else {
+        return { ...prev, [type]: [...list, id] };
+      }
+    });
+  };
+
   return (
-    <AppContext.Provider value={{ currentUser, login, logout, register, tips, addTip, upvoteTip, userUpvotes }}>
+    <AppContext.Provider value={{ currentUser, login, logout, register, tips, addTip, upvoteTip, userUpvotes, favorites, toggleFavorite }}>
       {children}
     </AppContext.Provider>
   );

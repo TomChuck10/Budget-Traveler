@@ -5,20 +5,24 @@ import { motion } from 'motion/react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { User, Calendar, Award, LogOut, TrendingUp, MapPin } from 'lucide-react';
-import { CATEGORY_ICONS } from '../data/mockData';
+import { User, Calendar, Award, LogOut, TrendingUp, MapPin, Heart, BookOpen } from 'lucide-react';
+import { CATEGORY_ICONS, GUIDES, DESTINATIONS } from '../data/mockData';
 
 export default function Profile() {
-  const { currentUser, logout, tips, userUpvotes } = useApp();
+  const { currentUser, logout, tips, userUpvotes, favorites } = useApp();
 
   if (!currentUser) {
     return <Navigate to="/" />;
   }
 
-  // Symulowane posty dodane przez użytkownika - tutaj filtrujemy z mockowanych tipsów lub pokazujemy fikcyjne
-  // Dla demonstracji, załóżmy, że użytkownik Michał stworzył post o id: 1
-  const userTips = tips.filter(t => t.id === 1);
+  // Symulowane posty dodane przez użytkownika
+  const userTips = tips.filter(t => t.author === currentUser.name);
   const upvotedTips = tips.filter(t => userUpvotes.includes(t.id));
+
+  const favTips = tips.filter(t => favorites.tips.includes(t.id));
+  const favGuides = GUIDES.filter(g => favorites.guides.includes(g.id));
+  const favDests = DESTINATIONS.filter(d => favorites.destinations.includes(d.id));
+  const totalFavorites = favTips.length + favGuides.length + favDests.length;
 
   return (
     <div className="bg-slate-50 min-h-screen py-12">
@@ -54,6 +58,10 @@ export default function Profile() {
                 <div className="text-2xl font-bold text-slate-900">{userUpvotes.length}</div>
                 <div className="text-xs text-slate-500 uppercase tracking-wider font-medium">Ocenionych</div>
               </div>
+              <div className="bg-slate-50 px-6 py-3 rounded-2xl border border-slate-100">
+                <div className="text-2xl font-bold text-rose-500">{totalFavorites}</div>
+                <div className="text-xs text-slate-500 uppercase tracking-wider font-medium">Ulubionych</div>
+              </div>
             </div>
           </div>
           
@@ -64,7 +72,7 @@ export default function Profile() {
           </div>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 gap-8 mb-12">
           {/* Twoje porady */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
             <h2 className="text-2xl font-bold text-slate-900 mb-6">Twoje opublikowane porady</h2>
@@ -129,6 +137,67 @@ export default function Profile() {
             )}
           </motion.div>
         </div>
+
+        {/* Ulubione */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+          <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center">
+            <Heart className="w-6 h-6 mr-2 text-rose-500 fill-rose-500" /> Twoje Ulubione Zapisy
+          </h2>
+          {totalFavorites > 0 ? (
+            <div className="grid md:grid-cols-3 gap-6">
+              {favTips.map(tip => (
+                <Link to={`/tips/${tip.id}`} key={`t-${tip.id}`} className="block">
+                  <Card className="hover:shadow-md transition-shadow border-rose-100 h-full">
+                    <CardContent className="p-4 flex items-start gap-4">
+                      <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0">
+                        <img src={tip.image} alt={tip.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                      </div>
+                      <div className="flex-grow">
+                        <Badge className="bg-slate-100 text-slate-600 mb-2 border-0 hover:bg-slate-200 text-[10px]">PORADA</Badge>
+                        <h3 className="font-bold text-slate-900 text-sm line-clamp-2">{tip.title}</h3>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+              {favGuides.map(guide => (
+                <Link to={`/guides/${guide.id}`} key={`g-${guide.id}`} className="block">
+                  <Card className="hover:shadow-md transition-shadow border-blue-100 h-full">
+                    <CardContent className="p-4 flex items-start gap-4">
+                      <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0">
+                        <img src={guide.image} alt={guide.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                      </div>
+                      <div className="flex-grow">
+                        <Badge className="bg-slate-100 text-slate-600 mb-2 border-0 hover:bg-slate-200 text-[10px]">PRZEWODNIK</Badge>
+                        <h3 className="font-bold text-slate-900 text-sm line-clamp-2">{guide.title}</h3>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+              {favDests.map(dest => (
+                <Link to={`/destinations/${dest.id}`} key={`d-${dest.id}`} className="block">
+                  <Card className="hover:shadow-md transition-shadow border-emerald-100 h-full">
+                    <CardContent className="p-4 flex items-start gap-4">
+                      <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0">
+                        <img src={dest.image} alt={dest.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                      </div>
+                      <div className="flex-grow">
+                        <Badge className="bg-slate-100 text-slate-600 mb-2 border-0 hover:bg-slate-200 text-[10px]">KIERUNEK</Badge>
+                        <h3 className="font-bold text-slate-900 text-sm line-clamp-2">{dest.name}</h3>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="bg-white p-8 rounded-2xl border border-slate-200 text-center text-slate-500">
+              Nie dodałeś jeszcze nic do ulubionych.<br/> 
+              Kliknij ikonę serca ♥ przy poradach lub kierunkach, do których chcesz łatwo wrócić!
+            </div>
+          )}
+        </motion.div>
 
       </div>
     </div>

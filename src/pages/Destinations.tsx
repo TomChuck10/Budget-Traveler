@@ -3,10 +3,13 @@ import { motion } from 'motion/react';
 import { DESTINATIONS } from '../data/mockData';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { MapPin, Wallet } from 'lucide-react';
+import { MapPin, Wallet, Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useApp } from '../context/AppContext';
 
 export default function Destinations() {
+  const { favorites, toggleFavorite } = useApp();
+
   return (
     <div className="bg-slate-50 min-h-screen py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -27,7 +30,7 @@ export default function Destinations() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="overflow-hidden hover:shadow-xl transition-all border-slate-200 group cursor-pointer h-full flex flex-col p-0">
+              <Card className="overflow-hidden hover:shadow-xl transition-all border-slate-200 group relative h-full flex flex-col p-0">
                 <Link to={`/destinations/${dest.id}`} className="flex flex-col h-full">
                   <div className="relative h-64 overflow-hidden shrink-0">
                     <img 
@@ -52,6 +55,14 @@ export default function Destinations() {
                     </p>
                   </CardContent>
                 </Link>
+                <div className="absolute top-4 right-4 z-10">
+                  <button 
+                    onClick={(e) => { e.preventDefault(); toggleFavorite('destinations', dest.id); }}
+                    className="p-1.5 bg-white/90 hover:bg-white backdrop-blur-sm rounded-full shadow-sm text-slate-400 transition-colors cursor-pointer"
+                  >
+                    <Heart className={`w-5 h-5 ${favorites.destinations.includes(dest.id) ? 'fill-rose-500 text-rose-500' : 'hover:text-rose-500'}`} />
+                  </button>
+                </div>
               </Card>
             </motion.div>
           ))}

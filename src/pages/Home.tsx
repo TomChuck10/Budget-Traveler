@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Bus, Utensils, Landmark, MapPin, TrendingUp, Users, ArrowRight } from 'lucide-react';
+import { Search, Bus, Utensils, Landmark, MapPin, TrendingUp, Users, ArrowRight, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,7 +12,7 @@ import { useApp } from '../context/AppContext';
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
-  const { tips, userUpvotes, upvoteTip } = useApp();
+  const { tips, userUpvotes, upvoteTip, favorites, toggleFavorite } = useApp();
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
@@ -149,7 +149,7 @@ export default function Home() {
                 transition={{ delay: index * 0.1 }}
               >
                 <Link to={`/tips/${tip.id}`} className="block h-full">
-                  <Card className="h-full overflow-hidden hover:shadow-lg transition-shadow border-slate-200 bg-white flex flex-col p-0">
+                  <Card className="h-full overflow-hidden hover:shadow-lg transition-shadow border-slate-200 bg-white flex flex-col p-0 relative">
                     <div className="relative h-48 overflow-hidden shrink-0">
                       <img 
                         src={tip.image} 
@@ -162,11 +162,17 @@ export default function Home() {
                           <MapPin className="w-3 h-3 mr-1" /> {tip.city}
                         </Badge>
                       </div>
-                      <div className="absolute top-4 right-4">
+                      <div className="absolute top-4 right-4 flex items-center gap-2">
                         <Badge className="bg-slate-900/80 text-white hover:bg-slate-900 backdrop-blur-sm shadow-sm border-0">
                           {CATEGORY_ICONS[tip.category]}
                           <span className="ml-1">{tip.category}</span>
                         </Badge>
+                        <button 
+                          onClick={(e) => { e.preventDefault(); toggleFavorite('tips', tip.id); }}
+                          className="p-1.5 bg-white/90 hover:bg-white backdrop-blur-sm rounded-full shadow-sm text-slate-400 transition-colors z-10 cursor-pointer"
+                        >
+                          <Heart className={`w-4 h-4 ${favorites.tips.includes(tip.id) ? 'fill-rose-500 text-rose-500' : 'hover:text-rose-500'}`} />
+                        </button>
                       </div>
                     </div>
                     <CardHeader className="pb-3 shrink-0 pt-4">

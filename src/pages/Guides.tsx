@@ -3,10 +3,13 @@ import { motion } from 'motion/react';
 import { GUIDES } from '../data/mockData';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { BookOpen, Clock } from 'lucide-react';
+import { BookOpen, Clock, Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useApp } from '../context/AppContext';
 
 export default function Guides() {
+  const { favorites, toggleFavorite } = useApp();
+
   return (
     <div className="bg-slate-50 min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -36,10 +39,16 @@ export default function Guides() {
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       referrerPolicy="no-referrer"
                     />
-                    <div className="absolute top-4 left-4">
+                    <div className="absolute top-4 left-4 flex gap-2">
                       <Badge className="bg-orange-500 hover:bg-orange-600 text-white border-0">
                         {guide.category}
                       </Badge>
+                      <button 
+                        onClick={(e) => { e.preventDefault(); toggleFavorite('guides', guide.id); }}
+                        className="p-1.5 bg-white/90 hover:bg-white backdrop-blur-sm rounded-full shadow-sm text-slate-400 transition-colors z-10 cursor-pointer"
+                      >
+                        <Heart className={`w-4 h-4 ${favorites.guides.includes(guide.id) ? 'fill-rose-500 text-rose-500' : 'hover:text-rose-500'}`} />
+                      </button>
                     </div>
                   </div>
                   <div className="flex flex-col justify-between p-6 sm:w-3/5">

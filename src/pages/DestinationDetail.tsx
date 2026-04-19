@@ -3,12 +3,14 @@ import { useParams, Link } from 'react-router-dom';
 import { DESTINATIONS } from '../data/mockData';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, MapPin, Wallet, Info } from 'lucide-react';
+import { ArrowLeft, MapPin, Wallet, Info, Heart } from 'lucide-react';
 import { motion } from 'motion/react';
+import { useApp } from '../context/AppContext';
 
 export default function DestinationDetail() {
   const { id } = useParams<{ id: string }>();
   const destination = DESTINATIONS.find(d => d.id === Number(id));
+  const { favorites, toggleFavorite } = useApp();
 
   if (!destination) {
     return (
@@ -20,6 +22,8 @@ export default function DestinationDetail() {
       </div>
     );
   }
+
+  const isFavorite = favorites.destinations.includes(destination.id);
 
   return (
     <div className="bg-slate-50 min-h-screen py-12">
@@ -42,6 +46,17 @@ export default function DestinationDetail() {
               referrerPolicy="no-referrer"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+            
+            <div className="absolute top-6 right-6">
+              <button 
+                onClick={() => toggleFavorite('destinations', destination.id)}
+                className="p-3 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 rounded-full shadow-lg text-white transition-all cursor-pointer"
+                title={isFavorite ? "Usuń z ulubionych" : "Dodaj do ulubionych"}
+              >
+                <Heart className={`w-6 h-6 ${isFavorite ? 'fill-rose-500 text-rose-500' : 'text-white hover:text-rose-400'}`} />
+              </button>
+            </div>
+
             <div className="absolute bottom-8 left-8 right-8 text-white">
               <h1 className="text-4xl md:text-6xl font-extrabold mb-4 flex items-center">
                 <MapPin className="w-8 h-8 md:w-10 md:h-10 mr-3" /> {destination.name}

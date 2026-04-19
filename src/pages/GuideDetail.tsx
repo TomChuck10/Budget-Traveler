@@ -3,12 +3,14 @@ import { useParams, Link } from 'react-router-dom';
 import { GUIDES } from '../data/mockData';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Clock, BookOpen } from 'lucide-react';
+import { ArrowLeft, Clock, BookOpen, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { useApp } from '../context/AppContext';
 
 export default function GuideDetail() {
   const { id } = useParams<{ id: string }>();
   const guide = GUIDES.find(g => g.id === Number(id));
+  const { favorites, toggleFavorite } = useApp();
   
   // Safely get all images (fallback to single image if array isn't present)
   // Check if guide exists first to avoid errors
@@ -26,6 +28,7 @@ export default function GuideDetail() {
   }
 
   const guideImages = guide.images && guide.images.length > 0 ? guide.images : [guide.image];
+  const isFavorite = favorites.guides.includes(guide.id);
 
   return (
     <div className="bg-slate-50 min-h-screen py-12">
@@ -56,10 +59,17 @@ export default function GuideDetail() {
                   referrerPolicy="no-referrer"
                 />
               </AnimatePresence>
-              <div className="absolute top-4 left-4">
+              <div className="absolute top-4 left-4 flex gap-2">
                 <Badge className="bg-orange-500 text-white border-0 text-sm py-1.5 px-3">
                   {guide.category}
                 </Badge>
+                <button 
+                  onClick={() => toggleFavorite('guides', guide.id)}
+                  className="p-2 bg-white/90 hover:bg-white backdrop-blur-sm rounded-full shadow-sm text-slate-400 transition-colors cursor-pointer"
+                  title={isFavorite ? "Usuń z ulubionych" : "Dodaj do ulubionych"}
+                >
+                  <Heart className={`w-5 h-5 ${isFavorite ? 'fill-rose-500 text-rose-500' : 'hover:text-rose-500'}`} />
+                </button>
               </div>
             </div>
             

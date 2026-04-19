@@ -20,8 +20,8 @@ import Login from './pages/Login';
 
 export default function App() {
   return (
-    <AppProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <AppProvider>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
@@ -41,7 +41,7 @@ export default function App() {
             <Route path="login" element={<Login />} />
           </Route>
         </Routes>
-      </BrowserRouter>
-    </AppProvider>
+      </AppProvider>
+    </BrowserRouter>
   );
 }
