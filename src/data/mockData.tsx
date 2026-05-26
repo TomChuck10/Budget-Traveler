@@ -16,7 +16,11 @@ export const COMMUNITY_TIPS = [
     author: 'Sarah M.',
     category: 'Transport',
     upvotes: 342,
+    downvotes: 12,
     image: 'https://picsum.photos/seed/tokyo/600/400',
+    price: 10,
+    proofOfPrice: 'https://picsum.photos/seed/proof1/200/300',
+    coordinates: [35.6762, 139.6503] as [number, number],
   },
   {
     id: 2,
@@ -26,7 +30,11 @@ export const COMMUNITY_TIPS = [
     author: 'Marco P.',
     category: 'Jedzenie',
     upvotes: 891,
+    downvotes: 45,
     image: 'https://picsum.photos/seed/rome/600/400',
+    price: 9,
+    proofOfPrice: 'https://picsum.photos/seed/proof2/200/300',
+    coordinates: [41.9028, 12.4964] as [number, number],
   },
   {
     id: 3,
@@ -36,7 +44,11 @@ export const COMMUNITY_TIPS = [
     author: 'Elena R.',
     category: 'Atrakcje',
     upvotes: 523,
+    downvotes: 8,
     image: 'https://picsum.photos/seed/paris/600/400',
+    price: 0,
+    proofOfPrice: 'https://picsum.photos/seed/proof3/200/300',
+    coordinates: [48.8566, 2.3522] as [number, number],
   },
   {
     id: 4,
@@ -46,7 +58,11 @@ export const COMMUNITY_TIPS = [
     author: 'David L.',
     category: 'Atrakcje',
     upvotes: 1024,
+    downvotes: 60,
     image: 'https://picsum.photos/seed/nyc/600/400',
+    price: 0,
+    proofOfPrice: 'https://picsum.photos/seed/proof4/200/300',
+    coordinates: [40.7128, -74.0060] as [number, number],
   },
   {
     id: 5,
@@ -56,7 +72,11 @@ export const COMMUNITY_TIPS = [
     author: 'Jenny K.',
     category: 'Jedzenie',
     upvotes: 412,
+    downvotes: 15,
     image: 'https://picsum.photos/seed/bangkok/600/400',
+    price: 1.5,
+    proofOfPrice: 'https://picsum.photos/seed/proof5/200/300',
+    coordinates: [13.7563, 100.5018] as [number, number],
   },
   {
     id: 6,
@@ -66,7 +86,11 @@ export const COMMUNITY_TIPS = [
     author: 'Tom H.',
     category: 'Transport',
     upvotes: 275,
+    downvotes: 5,
     image: 'https://picsum.photos/seed/london/600/400',
+    price: 2.5,
+    proofOfPrice: 'https://picsum.photos/seed/proof6/200/300',
+    coordinates: [51.5074, -0.1278] as [number, number],
   }
 ];
 

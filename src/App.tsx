@@ -2,6 +2,8 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
 import Layout from './components/Layout';
+import AnalyticsTracker from './components/AnalyticsTracker';
+import ContentsquareTracker from './components/ContentsquareTracker';
 import Home from './pages/Home';
 import Destinations from './pages/Destinations';
 import DestinationDetail from './pages/DestinationDetail';
@@ -17,14 +19,20 @@ import Terms from './pages/Terms';
 import Profile from './pages/Profile';
 import Register from './pages/Register';
 import Login from './pages/Login';
+import MapPage from './pages/MapPage';
+import Itinerary from './pages/Itinerary';
 
 export default function App() {
   return (
     <BrowserRouter>
+      <AnalyticsTracker />
+      <ContentsquareTracker />
       <AppProvider>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
+            <Route path="map" element={<MapPage />} />
+            <Route path="itinerary" element={<Itinerary />} />
             <Route path="destinations" element={<Destinations />} />
             <Route path="destinations/:id" element={<DestinationDetail />} />
             <Route path="tips" element={<Tips />} />

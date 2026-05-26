@@ -55,12 +55,28 @@ export default function Profile() {
                 <div className="text-xs text-slate-500 uppercase tracking-wider font-medium">Porad</div>
               </div>
               <div className="bg-slate-50 px-6 py-3 rounded-2xl border border-slate-100">
-                <div className="text-2xl font-bold text-slate-900">{userUpvotes.length}</div>
+                <div className="text-2xl font-bold text-emerald-500">{userUpvotes.length}</div>
                 <div className="text-xs text-slate-500 uppercase tracking-wider font-medium">Ocenionych</div>
               </div>
               <div className="bg-slate-50 px-6 py-3 rounded-2xl border border-slate-100">
                 <div className="text-2xl font-bold text-rose-500">{totalFavorites}</div>
-                <div className="text-xs text-slate-500 uppercase tracking-wider font-medium">Ulubionych</div>
+                <div className="text-xs text-slate-500 uppercase tracking-wider font-medium">Zapisanych</div>
+              </div>
+            </div>
+
+            {/* Achievement Badges - Figma Style */}
+            <div className="mt-8 flex flex-wrap justify-center md:justify-start gap-3">
+              <div className="flex items-center gap-2 bg-orange-50 border border-orange-100 px-3 py-1.5 rounded-full" title="Założyciel społeczności">
+                <Award className="w-4 h-4 text-orange-600" />
+                <span className="text-[10px] font-bold text-orange-700 uppercase tracking-wider">PIONIER</span>
+              </div>
+              <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-100 px-3 py-1.5 rounded-full" title="Pomocny członek">
+                <TrendingUp className="w-4 h-4 text-emerald-600" />
+                <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider">WSPÓŁTWÓRCA</span>
+              </div>
+              <div className="flex items-center gap-2 bg-blue-50 border border-blue-100 px-3 py-1.5 rounded-full" title="Dociekliwy odkrywca">
+                <BookOpen className="w-4 h-4 text-blue-600" />
+                <span className="text-[10px] font-bold text-blue-700 uppercase tracking-wider">ODKRYWCA</span>
               </div>
             </div>
           </div>

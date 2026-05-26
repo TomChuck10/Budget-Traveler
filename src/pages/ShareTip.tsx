@@ -28,12 +28,21 @@ export default function ShareTip() {
       'other': 'Inne'
     };
 
+    const files = formData.getAll('images') as File[];
+    const validFiles = files.filter(f => f.size > 0);
+    const imageUrls = validFiles.map(f => URL.createObjectURL(f));
+    const mainImage = imageUrls.length > 0 ? imageUrls[0] : 'https://picsum.photos/seed/new/600/400';
+
     addTip({
       title: formData.get('title') as string,
       city: formData.get('city') as string,
       category: categoryMap[rawCategory] || 'Inne',
       description: formData.get('description') as string,
-      image: (formData.get('image') as string) || 'https://picsum.photos/seed/new/600/400'
+      image: mainImage,
+      images: imageUrls,
+      price: Number(formData.get('price')) || 0,
+      proofOfPrice: formData.get('proofOfPrice') ? URL.createObjectURL(formData.get('proofOfPrice') as File) : 'https://picsum.photos/seed/proofnew/200/300',
+      coordinates: [0, 0] as [number, number]
     });
 
     setIsSubmitted(true);
@@ -154,6 +163,17 @@ export default function ShareTip() {
                   </div>
                 </div>
 
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="price">Cena ($)</Label>
+                    <Input id="price" name="price" type="number" step="0.01" min="0" placeholder="np. 15.50" required />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="proofOfPrice">Dowód Ceny (Zdjęcie / Zrzut Ekranu)</Label>
+                    <Input id="proofOfPrice" name="proofOfPrice" type="file" accept="image/*" className="cursor-pointer" />
+                  </div>
+                </div>
+
                 <div className="space-y-2">
                   <Label htmlFor="description">Opis</Label>
                   <Textarea 
@@ -166,8 +186,8 @@ export default function ShareTip() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="image">URL Zdjęcia (Opcjonalnie)</Label>
-                  <Input id="image" name="image" type="url" placeholder="https://example.com/image.jpg" />
+                  <Label htmlFor="images">Zdjęcia (Możesz wybrać kilka)</Label>
+                  <Input id="images" name="images" type="file" accept="image/*" multiple className="cursor-pointer" />
                 </div>
 
                 <Button type="submit" className="w-full bg-slate-900 hover:bg-slate-800 text-white h-12 text-lg rounded-xl">

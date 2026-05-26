@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { useApp } from '../context/AppContext';
 
 export default function Tips() {
-  const { tips, userUpvotes, upvoteTip, favorites, toggleFavorite } = useApp();
+  const { tips, userVotes, upvoteTip, downvoteTip, favorites, toggleFavorite } = useApp();
   const [searchParams, setSearchParams] = useSearchParams();
   const initialSearch = searchParams.get('search') || '';
   
@@ -36,7 +36,7 @@ export default function Tips() {
                           tip.description.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = activeCategory ? tip.category === activeCategory : true;
     return matchesSearch && matchesCategory;
-  });
+  }).sort((a, b) => (b.upvotes - (b.downvotes || 0)) - (a.upvotes - (a.downvotes || 0)));
 
   const categories = ['Transport', 'Jedzenie', 'Atrakcje'];
 
@@ -134,13 +134,22 @@ export default function Tips() {
                         </div>
                         <span className="text-sm font-medium text-slate-700">{tip.author}</span>
                       </div>
-                      <button 
-                        onClick={(e) => { e.preventDefault(); upvoteTip(tip.id); }}
-                        className={`flex items-center text-sm font-medium px-3 py-1.5 rounded-full transition-colors ${userUpvotes.includes(tip.id) ? 'bg-emerald-100 text-emerald-700' : 'text-slate-500 hover:bg-slate-200'}`}
-                      >
-                        <TrendingUp className={`w-4 h-4 mr-1 ${userUpvotes.includes(tip.id) ? 'text-emerald-600' : 'text-emerald-500'}`} />
-                        {tip.upvotes}
-                      </button>
+                      <div className="flex items-center gap-1">
+                        <button 
+                          onClick={(e) => { e.preventDefault(); upvoteTip(tip.id); }}
+                          className={`flex items-center text-sm font-medium px-2 py-1.5 rounded-l-full transition-colors ${userVotes[tip.id] === 'up' ? 'bg-emerald-100 text-emerald-700' : 'text-slate-500 hover:bg-slate-200'}`}
+                        >
+                          <TrendingUp className={`w-4 h-4 mr-1 ${userVotes[tip.id] === 'up' ? 'text-emerald-600' : 'text-emerald-500'}`} />
+                          {tip.upvotes}
+                        </button>
+                        <button 
+                          onClick={(e) => { e.preventDefault(); downvoteTip(tip.id); }}
+                          className={`flex items-center text-sm font-medium px-2 py-1.5 rounded-r-full transition-colors ${userVotes[tip.id] === 'down' ? 'bg-rose-100 text-rose-700' : 'text-slate-500 hover:bg-slate-200'}`}
+                        >
+                          <TrendingUp className={`w-4 h-4 mr-1 rotate-180 ${userVotes[tip.id] === 'down' ? 'text-rose-600' : 'text-rose-500'}`} />
+                          {tip.downvotes || 0}
+                        </button>
+                      </div>
                     </CardFooter>
                   </Card>
                 </Link>
