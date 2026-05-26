@@ -1,10 +1,9 @@
 {
-  "projectId": "direct-outpost-807pf",
-  "appId": "1:1039409668113:web:0a2368bd89861838ce11b0",
-  "apiKey": "AIzaSyCHxp4EKRcs28xWmZX976ccT28ABLXqaBE",
-  "authDomain": "direct-outpost-807pf.firebaseapp.com",
-  "firestoreDatabaseId": "ai-studio-79836b99-f957-4ff6-b7c9-9a4234ce7701",
-  "storageBucket": "direct-outpost-807pf.firebasestorage.app",
-  "messagingSenderId": "1039409668113",
-  "measurementId": ""
+  "projectId": "budget-traveler-c22c5",
+  "appId": "1:149919961601:web:2376fca35eca223e3ee600",
+  "apiKey": "AIzaSyAY3-P1Mt6gmWFR5FPYC_DTANioJUbVyl0",
+  "authDomain": "budget-traveler-c22c5.firebaseapp.com",
+  "storageBucket": "budget-traveler-c22c5.firebasestorage.app",
+  "messagingSenderId": "149919961601",
+  "measurementId": "G-2QL2DC3K6B"
 }
