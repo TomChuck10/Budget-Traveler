@@ -18,20 +18,20 @@ Aplikacja webowa do planowania niskobudżetowych podróży, stworzona jako proje
 
 ## Technologie
 
-| Warstwa | Technologia |
-|---|---|
-| Framework | React 19 + Vite 6 |
-| Routing | React Router DOM 7 |
-| Stylowanie | Tailwind CSS 4 |
-| Komponenty UI | shadcn/ui, Lucide React |
-| Animacje | Motion (Framer Motion) |
-| Mapy | Leaflet + React Leaflet |
-| Autentykacja | Firebase Authentication (Google) |
-| Baza danych | Cloud Firestore |
-| Analityka | Google Analytics 4 (react-ga4) |
-| Analityka UX | Hotjar / Contentsquare |
-| AI | Google Gemini API |
-| Język | TypeScript |
+| Warstwa       | Technologia                      |
+| ------------- | -------------------------------- |
+| Framework     | React 19 + Vite 6                |
+| Routing       | React Router DOM 7               |
+| Stylowanie    | Tailwind CSS 4                   |
+| Komponenty UI | shadcn/ui, Lucide React          |
+| Animacje      | Motion (Framer Motion)           |
+| Mapy          | Leaflet + React Leaflet          |
+| Autentykacja  | Firebase Authentication (Google) |
+| Baza danych   | Cloud Firestore                  |
+| Analityka     | Google Analytics 4 (react-ga4)   |
+| Analityka UX  | Hotjar / Contentsquare           |
+| AI            | Google Gemini API                |
+| Język         | TypeScript                       |
 
 ---
 
@@ -109,7 +109,7 @@ Integracja z GA4 przez `react-ga4`. Każda zmiana strony jest rejestrowana autom
 
 ---
 
-## Hotjar
+## Hotjar/Contentsquare
 
 Analiza zachowań użytkowników (heatmapy, nagrania sesji) przez Hotjar / Contentsquare — skonfigurowane w `ContentsquareTracker.tsx`.
 
