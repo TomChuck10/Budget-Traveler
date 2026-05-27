@@ -153,7 +153,6 @@ export default function TipDetail() {
               )}
             </div>
 
-            {/* Komentarze - Forum Feel */}
             <div className="border-t border-slate-100 pt-12">
               <div className="flex items-center justify-between mb-8">
                 <h3 className="text-2xl font-bold text-slate-900">Dyskusja społeczności</h3>
@@ -161,7 +160,6 @@ export default function TipDetail() {
               </div>
 
               <div className="space-y-10">
-                {/* Komentarz 1 */}
                 <div className="flex gap-5 group">
                   <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center shrink-0 text-slate-400 font-bold border border-slate-200 group-hover:border-orange-200 transition-colors">
                     A
@@ -184,7 +182,6 @@ export default function TipDetail() {
                   </div>
                 </div>
 
-                {/* Komentarz 2 */}
                 <div className="flex gap-5 group">
                   <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center shrink-0 text-slate-400 font-bold border border-slate-200 group-hover:border-orange-200 transition-colors">
                     M
@@ -205,7 +202,6 @@ export default function TipDetail() {
                 </div>
               </div>
 
-              {/* Formularz dodawania */}
               <div className="mt-12 bg-orange-50/50 rounded-3xl p-8 border border-orange-100">
                 <h4 className="font-bold text-slate-900 mb-4">Dodaj swoją opinię</h4>
                 <textarea 

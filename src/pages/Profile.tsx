@@ -15,7 +15,6 @@ export default function Profile() {
     return <Navigate to="/" />;
   }
 
-  // Symulowane posty dodane przez użytkownika
   const userTips = tips.filter(t => t.author === currentUser.name);
   const upvotedTips = tips.filter(t => userUpvotes.includes(t.id));
 
@@ -28,8 +27,7 @@ export default function Profile() {
     <div className="bg-slate-50 min-h-screen py-12">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Nagłówek profilu */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="bg-white rounded-3xl p-8 mb-8 shadow-sm border border-slate-200 flex flex-col md:flex-row items-center md:items-start gap-8"
@@ -64,7 +62,6 @@ export default function Profile() {
               </div>
             </div>
 
-            {/* Achievement Badges - Figma Style */}
             <div className="mt-8 flex flex-wrap justify-center md:justify-start gap-3">
               <div className="flex items-center gap-2 bg-orange-50 border border-orange-100 px-3 py-1.5 rounded-full" title="Założyciel społeczności">
                 <Award className="w-4 h-4 text-orange-600" />
@@ -89,7 +86,6 @@ export default function Profile() {
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-8 mb-12">
-          {/* Twoje porady */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
             <h2 className="text-2xl font-bold text-slate-900 mb-6">Twoje opublikowane porady</h2>
             {userTips.length > 0 ? (
@@ -120,7 +116,6 @@ export default function Profile() {
             )}
           </motion.div>
 
-          {/* Ocenione porady */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
             <h2 className="text-2xl font-bold text-slate-900 mb-6">Ostatnio ocenione przez Ciebie</h2>
             {upvotedTips.length > 0 ? (
@@ -154,7 +149,6 @@ export default function Profile() {
           </motion.div>
         </div>
 
-        {/* Ulubione */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
           <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center">
             <Heart className="w-6 h-6 mr-2 text-rose-500 fill-rose-500" /> Twoje Ulubione Zapisy

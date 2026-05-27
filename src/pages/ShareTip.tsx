@@ -17,8 +17,6 @@ export default function ShareTip() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     
-    // Map Polish keys from select to the English keys used in categories if necessary, 
-    // or just use Polish directly if that's what we display
     const rawCategory = formData.get('category') as string;
     const categoryMap: Record<string, string> = {
       'transport': 'Transport',

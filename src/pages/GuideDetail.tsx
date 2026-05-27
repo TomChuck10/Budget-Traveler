@@ -12,8 +12,6 @@ export default function GuideDetail() {
   const guide = GUIDES.find(g => g.id === Number(id));
   const { favorites, toggleFavorite } = useApp();
   
-  // Safely get all images (fallback to single image if array isn't present)
-  // Check if guide exists first to avoid errors
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   if (!guide) {
@@ -43,7 +41,6 @@ export default function GuideDetail() {
           animate={{ opacity: 1, y: 0 }}
           className="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-200"
         >
-          {/* Main Image Gallery Logic */}
           <div className="w-full">
             <div className="relative h-64 md:h-96 w-full overflow-hidden bg-slate-100">
               <AnimatePresence mode="wait">
@@ -73,7 +70,6 @@ export default function GuideDetail() {
               </div>
             </div>
             
-            {/* Thumbnails if > 1 image */}
             {guideImages.length > 1 && (
               <div className="flex gap-3 p-4 overflow-x-auto hide-scrollbar bg-white border-b border-slate-100">
                 {guideImages.map((img, idx) => (

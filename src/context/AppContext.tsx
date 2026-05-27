@@ -33,7 +33,7 @@ type AppContextType = {
   toggleFavorite: (type: FavoriteType, id: number) => void;
   itinerary: number[];
   toggleItinerary: (id: number) => void;
-  userUpvotes: number[]; // kept for partial compatibility where needed, but we'll use userVotes actively
+  userUpvotes: number[];
 };
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -138,12 +138,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         let newDownvotes = tip.downvotes;
         
         if (userVotes[id] === 'up') {
-          newUpvotes -= 1; // remove upvote
+          newUpvotes -= 1;
         } else if (userVotes[id] === 'down') {
-          newDownvotes -= 1; // remove downvote
-          newUpvotes += 1; // add upvote
+          newDownvotes -= 1;
+          newUpvotes += 1;
         } else {
-          newUpvotes += 1; // add upvote
+          newUpvotes += 1;
         }
         
         return {
@@ -186,12 +186,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         let newDownvotes = tip.downvotes;
         
         if (userVotes[id] === 'down') {
-          newDownvotes -= 1; // remove downvote
+          newDownvotes -= 1;
         } else if (userVotes[id] === 'up') {
-          newUpvotes -= 1; // remove upvote
-          newDownvotes += 1; // add downvote
+          newUpvotes -= 1;
+          newDownvotes += 1;
         } else {
-          newDownvotes += 1; // add downvote
+          newDownvotes += 1;
         }
         
         return {
@@ -213,7 +213,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       return newVotes;
     });
 
-    setUserUpvotes(prev => prev.filter(upvoteId => upvoteId !== id)); // Remove from old upvotes
+    setUserUpvotes(prev => prev.filter(upvoteId => upvoteId !== id));
   };
 
   const toggleFavorite = (type: FavoriteType, id: number) => {

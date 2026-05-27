@@ -44,7 +44,6 @@ export default function Tips() {
     <div className="bg-slate-50 min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Header & Search */}
         <div className="mb-12">
           <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 mb-6">
             Porady Społeczności
@@ -82,7 +81,6 @@ export default function Tips() {
           </div>
         </div>
 
-        {/* Results */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredTips.length > 0 ? (
             filteredTips.map((tip, index) => (

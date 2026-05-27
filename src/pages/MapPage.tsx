@@ -98,7 +98,6 @@ export default function MapPage() {
     <div className="flex flex-col h-[calc(100vh-4rem)] relative z-0">
       <div className="bg-white border-b border-slate-200 p-4 shrink-0 shadow-sm relative z-20 flex flex-col md:flex-row gap-4 items-center justify-between">
         
-        {/* Wyszukiwarka */}
         <form onSubmit={handleSearch} className="flex items-center gap-2 w-full md:w-auto">
           <div className="relative flex-grow md:w-64">
             <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" />
@@ -125,7 +124,6 @@ export default function MapPage() {
           </Button>
         </form>
 
-        {/* Kategorie */}
         <div className="flex flex-nowrap overflow-x-auto gap-2 max-w-full pb-1 md:pb-0 scrollbar-hide">
           <Button 
             variant={activeCategory === null ? "default" : "outline"}
