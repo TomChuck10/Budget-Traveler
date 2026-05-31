@@ -196,7 +196,7 @@ export default function Layout() {
       </nav>
 
       {/* Main Content */}
-      <main className="flex-grow">
+      <main className="grow">
         <Outlet />
       </main>
 

@@ -21,6 +21,7 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import MapPage from './pages/MapPage';
 import Itinerary from './pages/Itinerary';
+import NotFound from './pages/NotFound';
 
 export default function App() {
   return (
@@ -47,6 +48,7 @@ export default function App() {
             <Route path="profile" element={<Profile />} />
             <Route path="register" element={<Register />} />
             <Route path="login" element={<Login />} />
+            <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
       </AppProvider>
